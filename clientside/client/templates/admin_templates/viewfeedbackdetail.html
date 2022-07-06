@@ -1,0 +1,156 @@
+{% extends 'admin_templates/base_template.html' %}
+{% load static %}
+{% block custom_css %}
+    <link rel="stylesheet" type="text/css"  href="{%  static 'assets/extra-libs/multicheck/multicheck.css' %}"/>
+    <link href="{%  static 'assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.css'  %}"  rel="stylesheet"/>
+    <link href="{%  static 'dist/css/style.min.css'  %}" rel="stylesheet" />
+    <link
+      href="{%  static 'assets/libs/jquery-steps/jquery.steps.css' %}"
+      rel="stylesheet"
+    />
+    <link href="{%  static 'assets/libs/jquery-steps/steps.css' %}" rel="stylesheet" />
+    <link href="{%  static 'assets/dist/css/style.min.css' %}" rel="stylesheet" />
+    <style>
+    .card {
+      box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+      transition: 0.3s;
+      width: 100%;
+      border-radius: 15px; /* 5px rounded corners */
+      height:100%;
+    }
+    .card:hover {
+      box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    }
+    .container {
+      padding: 2px 70px;
+    }
+    table {
+            width: 300px;
+        }
+        table, th, td {
+            width:100%;
+            border: solid 1px #DDD;
+            //border-collapse: collapse;
+            padding: 2px 3px;
+
+    }
+    </style>
+{% endblock custom_css %}
+{% block page_title %}Job Feedback{% endblock page_title %}
+{% block main_content %}
+
+  <div class="card">
+                <div class="card-body">
+
+                  <div id="tab" style="width:100%;">
+        <table>
+                    <tr>
+                    <th>Job ID:</th>
+                    <td>{{ fb.pvt_number}}</td>
+                    </tr>
+                    <tr>
+                    <th>Client</th>
+                    <td>{{ fb.client}}</td>
+                    </tr>
+                    <tr>
+                    <th>Client Rep</th>
+                    <td>{{ fb.client_rep}}</td>
+                    </tr>
+                    <tr>
+                    <th>Score :</th>
+                    <td>{{ fb.score}} %</td>
+                    </tr>
+                    <tr>
+                    <th>Description of service </th>
+                    <td>{{ fb.descrition_of_service}}</td>
+                    </tr>
+                    <tr>
+                    <th>Are you satisfied with our analysis and report </th>
+                    <td>{{ fb.analysis_and_report}}</td>
+                    </tr>
+                    <tr>
+                    <th>Did we meet your time scheduled for this job</th>
+                    <td>{{ fb.job_schedule}} </td>
+                    </tr>
+                    <tr>
+                    <th>Rate the performance of Laser Staff that related with you on this job</th>
+                    <td>{{ fb.staff_performance}} </td>
+                    </tr>
+                    <tr>
+                    <th>Are you satisfied with the price we charged for this job</th>
+                    <td>{{ fb.job_price}} </td>
+                    </tr>
+                    <tr>
+                    <th>Will you recommend us to other clients</th>
+                    <td>{{ fb.recommend_us}} </td>
+                    </tr>
+                    <tr>
+                    <th>Rate the prompt response to complaints </th>
+                    <td>{{ fb.complaint_response}} </td>
+                    </tr>
+                    <tr>
+                    <th>Do you have any cause to reject our services at any time</th>
+                    <td>{{ fb.rejected_services}} </td>
+                    </tr>
+                    <tr>
+                    <th>If yes, state your complaints </th>
+                    <td>{{ fb.rejected_services_comment}} </td>
+                    </tr>
+                    <tr>
+                    <th>Address</th>
+                    <td>{{ fb.address}} </td>
+                    </tr>
+                    <tr>
+                    <th>Contact Person</th>
+                    <td>{{ fb.laser_rep}} </td>
+                    </tr>
+                    <tr>
+                    <th>Other comments</th>
+                    <td>{{ fb.comment}} </td>
+                    </tr>
+                    <tr>
+                    <th>Date</th>
+                    <td>{{ fb.created_at}} </td>
+                    </tr>
+                  </table>
+  </div>
+                    <br>
+                    <input type="button" value="Create PDF" id="btPrint" onclick="createPDF()" /></div>
+
+{% endblock main_content %}
+{% block custom_js %}
+<!-- This Page JS -->
+
+    <!-- this page js -->
+    <script src="{%  static 'assets//extra-libs/multicheck/datatable-checkbox-init.js'  %}"></script>
+    <script src="{%  static 'assets//extra-libs/multicheck/jquery.multicheck.js'  %}"></script>
+    <script src="{%  static 'assets//extra-libs/DataTables/datatables.min.js'  %}"></script>
+ <script>
+    function createPDF() {
+        var sTable = document.getElementById('tab').innerHTML;
+
+        var style = "<style>";
+        style = style + "table {width: 100%;font: 17px Calibri;text-align: left;}";
+        style = style + "table, th, td {border: solid 1px #DDD; border-collapse: collapse;";
+        //style = style + "padding: 2px 3px;text-align: center;}";
+        style = style + "</style>";
+
+        // CREATE A WINDOW OBJECT.
+        var win = window.open('', '', 'height=700,width=700');
+
+        win.document.write('<html><head>');
+        win.document.write("{{ fb.pvt_number}} Evaluation by {{ fb.client_rep}} for {{ fb.client}}");   // <title> FOR PDF HEADER.
+        win.document.write(style);          // ADD STYLE INSIDE THE HEAD TAG.
+        win.document.write('</head>');
+        win.document.write('<body>');
+        win.document.write(sTable);         // THE TABLE CONTENTS INSIDE THE BODY TAG.
+        win.document.write('</body></html>');
+
+        win.document.close(); 	// CLOSE THE CURRENT WINDOW.
+
+        win.print();    // PRINT THE CONTENTS.
+    }
+</script>
+</div>
+              </div>
+{% endblock custom_js %}

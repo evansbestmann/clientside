@@ -1,0 +1,164 @@
+ {% load static %}
+<aside class="left-sidebar" data-sidebarbg="skin5" style="position: fixed;">
+        <!-- Sidebar scroll-->
+        <div class="scroll-sidebar" style="margin-top: 0px;">
+          <!-- Sidebar navigation-->
+          <nav class="sidebar-nav">
+            <ul id="sidebarnav" class="pt-4" >
+              <li class="sidebar-item" >
+                <a
+                  class="sidebar-link has-arrow waves-effect waves-dark"
+                  href="javascript:void(0)"
+                  aria-expanded="false"
+                  ><i class="me-2 mdi mdi-account"></i
+                  ><span class="hide-menu">{{ user.username}}</span></a
+                >
+                <ul aria-expanded="false" class="collapse first-level">
+                  <li class="sidebar-item">
+                    <a href="/user_logout" class="sidebar-link"
+                      ><i class="me-2 mdi mdi-account-off"></i
+                      ><span class="hide-menu">Logout</span></a
+                    >
+                  </li>
+                </ul>
+              </li>
+              <li class="sidebar-item" style="white">
+                <a
+                  class="sidebar-link waves-effect waves-dark"
+                  href="{% url 'admin_home' %}"
+                  aria-expanded="false"
+                  ><i class="me-2 mdi mdi-home-variant"></i
+                  ><span class="hide-menu">Home</span></a
+                >
+              </li>
+              <li class="sidebar-item">
+                <a
+                  class="sidebar-link has-arrow waves-effect waves-dark"
+                  href="javascript:void(0)"
+                  aria-expanded="false"
+                  ><i class="me-2 mdi mdi-account-plus"></i
+                  ><span class="hide-menu">User</span></a
+                >
+                <ul aria-expanded="false" class="collapse first-level">
+                  <li class="sidebar-item">
+                    <a href="{% url 'addclient' %}" class="sidebar-link"
+                      ><i class="me-2 mdi mdi-plus"></i
+                      ><span class="hide-menu">Add Client</span></a
+                    >
+                  </li>
+                  <li class="sidebar-item">
+                    <a href="{% url 'manageclient' %}" class="sidebar-link"
+                      ><i class="me-2 mdi mdi-settings"></i
+                      ><span class="hide-menu">ManageClient</span></a
+                    >
+                  </li>
+                </ul>
+              </li>
+              <li class="sidebar-item">
+                <a
+                  class="sidebar-link has-arrow waves-effect waves-dark"
+                  href="javascript:void(0)"
+                  aria-expanded="false"
+                  ><i class="me-2 mdi mdi-account-plus"></i
+                  ><span class="hide-menu">Field</span></a
+                >
+                <ul aria-expanded="false" class="collapse first-level">
+                  <li class="sidebar-item">
+                    <a href="{% url 'addfield' %}" class="sidebar-link"
+                      ><i class="me-2 mdi mdi-plus"></i
+                      ><span class="hide-menu">Add Field</span></a
+                    >
+                  </li>
+                  <li class="sidebar-item">
+                    <a href="{% url 'managefield' %}" class="sidebar-link"
+                      ><i class="me-2 mdi mdi-settings"></i
+                      ><span class="hide-menu">Manage Field</span></a
+                    >
+                  </li>
+                </ul>
+              </li>
+              <li class="sidebar-item">
+                <a
+                  class="sidebar-link has-arrow waves-effect waves-dark"
+                  href="javascript:void(0)"
+                  aria-expanded="false"
+                  ><i class="me-2 mdi mdi-account-plus"></i
+                  ><span class="hide-menu">Laser Representatives</span></a
+                >
+                <ul aria-expanded="false" class="collapse first-level">
+                  <li class="sidebar-item">
+                    <a href="{% url 'addlaserrep' %}" class="sidebar-link"
+                      ><i class="me-2 mdi mdi-plus"></i
+                      ><span class="hide-menu">Add Representative</span></a
+                    >
+                  </li>
+                  <li class="sidebar-item">
+                    <a href="{% url 'managereps' %}" class="sidebar-link"
+                      ><i class="me-2 mdi mdi-settings"></i
+                      ><span class="hide-menu">Manage Representative</span></a
+                    >
+                  </li>
+                </ul>
+              </li>
+              <li class="sidebar-item">
+                <a
+                  class="sidebar-link has-arrow waves-effect waves-dark"
+                  href="javascript:void(0)"
+                  aria-expanded="false"
+                  ><i class="me-2 mdi mdi-account-plus"></i
+                  ><span class="hide-menu">Job Status</span></a
+                >
+                <ul aria-expanded="false" class="collapse first-level">
+                  <li class="sidebar-item">
+                    <a href="{% url 'addjobstatus' %}" class="sidebar-link"
+                      ><i class="me-2 mdi mdi-plus"></i
+                      ><span class="hide-menu">Add Status</span></a
+                    >
+                  </li>
+                  <li class="sidebar-item">
+                    <a href="{% url 'managejobstatus' %}" class="sidebar-link"
+                      ><i class="me-2 mdi mdi-settings"></i
+                      ><span class="hide-menu">Manage Status</span></a
+                    >
+                  </li>
+                </ul>
+              </li>
+              <li class="sidebar-item">
+                <a
+                  class="sidebar-link has-arrow waves-effect waves-dark"
+                  href="javascript:void(0)"
+                  aria-expanded="false"
+                  ><i class="me-2 mdi mdi-book-open"></i
+                  ><span class="hide-menu">Jobs</span></a
+                >
+                <ul aria-expanded="false" class="collapse first-level">
+                  <li class="sidebar-item">
+                    <a href="{% url 'addjob' %}" class="sidebar-link"
+                      ><i class="me-2 mdi mdi-plus"></i
+                      ><span class="hide-menu">Add Job</span></a
+                    >
+                  </li>
+                  <li class="sidebar-item">
+                    <a href="{% url 'managejob' %}" class="sidebar-link"
+                      ><i class="me-2 mdi mdi-poll"></i
+                      ><span class="hide-menu">Manage Job</span></a
+                    >
+                  </li>
+                </ul>
+              </li>
+              <li class="sidebar-item">
+                <a
+                  class="sidebar-link waves-effect waves-dark"
+                  href="{% url 'viewfeedback' %}"
+                  aria-expanded="false"
+                  ><i class="me-2 mdi mdi-book-open"></i
+                  ><span class="hide-menu">Feedback</span></a
+                >
+
+              </li>
+            </ul>
+          </nav>
+          <!-- End Sidebar navigation -->
+        </div>
+        <!-- End Sidebar scroll-->
+      </aside>

@@ -1,0 +1,71 @@
+{% extends 'admin_templates/base_template.html' %}
+{% load static %}
+{% block custom_css %}
+   <link
+      href="{%  static 'assets/libs/jquery-steps/jquery.steps.css' %}"
+      rel="stylesheet"
+    />
+    <link href="{%  static 'assets/libs/jquery-steps/steps.css' %}" rel="stylesheet" />
+    <link href="{%  static 'assets/dist/css/style.min.css' %}" rel="stylesheet" />
+<style>
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  width: 100%;
+  border-radius: 15px; /* 5px rounded corners */
+  height:100%;
+}
+
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+.container {
+  padding: 2px 70px;
+}
+</style>
+{% endblock custom_css %}
+{% block page_title %}Add Laser Rep{% endblock page_title %}
+{% block main_content %}
+     <div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                <form class="form-horizontal" action="/addlaserrep_save" method="post">
+                    {% csrf_token %}
+                  <div class="card-body">
+                    <h4 class="card-title"></h4>
+                    <div class="form-group row">
+                       <label for="laserrep_name">Laser Rep Name *</label>
+                      <div class="col-sm-12">
+                        <input id="laserrep_name" type="text" class="required form-control" name="laserrep_name" />
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="laserrep_position">Laser Rep Position *</label>
+                      <div class="col-sm-12">
+                        <input id="laserrep_position" type="text" class="required form-control" name="laserrep_position"/>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                     {% if messages %}
+                       <div>
+                         {% for message in messages %}
+                         {% if message.tags == 'error' %}
+                         <div class="alert alert-danger">{{ message }}</div>
+                         {% endif %}
+                         {% if message.tags == 'success' %}
+                         <div class="alert alert-success">{{ message }}</div>
+                         {% endif %}
+                         {% endfor %}
+                       </div>
+                    {% endif %}
+                    </div>
+                    <div class="card-footer">
+                      <button type="submit" class="btn btn-primary btn-block">Add Subject</button>
+                    </div>
+                </form>
+              </div>
+                </div>
+              </div>
+{% endblock main_content %}

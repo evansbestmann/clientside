@@ -1,0 +1,94 @@
+{% extends 'admin_templates/base_template.html' %}
+{% load static %}
+{% block custom_css %}
+    <link rel="stylesheet" type="text/css"  href="{%  static 'assets/extra-libs/multicheck/multicheck.css' %}"/>
+    <link href="{%  static 'assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.css'  %}"  rel="stylesheet"/>
+    <link href="{%  static 'dist/css/style.min.css'  %}" rel="stylesheet" />
+    <link
+      href="{%  static 'assets/libs/jquery-steps/jquery.steps.css' %}"
+      rel="stylesheet"
+    />
+    <link href="{%  static 'assets/libs/jquery-steps/steps.css' %}" rel="stylesheet" />
+    <link href="{%  static 'assets/dist/css/style.min.css' %}" rel="stylesheet" />
+<style>
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  width: 100%;
+  border-radius: 15px; /* 5px rounded corners */
+  height:100%;
+}
+
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+.container {
+  padding: 2px 70px;
+}
+</style>
+{% endblock custom_css %}
+{% block page_title %}Client Feedback{% endblock page_title %}
+{% block main_content %}
+  <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">Feedback Detials</h5>
+                  <div class="table-responsive">
+                    <table
+                      id="zero_config"
+                      class="table table-striped table-bordered"
+                    >
+                      <thead>
+
+                        <tr>
+                          <th>Client</th>
+                          <th>Client Rep</th>
+                          <th>Job ID</th>
+                          <th>Score  %</th>
+                          <th>More info</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                       {% for job in fb %}
+                        <tr>
+                          <th>{{ job.client}}</th>
+                          <th>{{ job.client_rep}}</th>
+                          <th>{{ job.pvt_number}}</th>
+                          <th>{{ job.score}}</th>
+                          <th><a href="{% url 'viewfeedbackdetail'  job_id=job.id %}" class="" style="color:black;">view</a></th>
+<!--                            standard python way of passing particular variable_id from views where kwargs={"variable_id":variable_id}-->
+                          <th><a href="#" class="btn btn-success">Edit</a></th>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                      <tfoot>
+                        <tr>
+                          <th>Client</th>
+                          <th>Client Rep</th>
+                          <th>Job ID</th>
+                          <th>Score  %</th>
+                          <th>More info</th>
+                          <th>Action</th>
+                        </tr>
+                      </tfoot>
+                    </table>
+                  </div>
+                </div>
+              </div>
+{% endblock main_content %}
+{% block custom_js %}
+<!-- This Page JS -->
+
+    <!-- this page js -->
+    <script src="{%  static 'assets//extra-libs/multicheck/datatable-checkbox-init.js'  %}"></script>
+    <script src="{%  static 'assets//extra-libs/multicheck/jquery.multicheck.js'  %}"></script>
+    <script src="{%  static 'assets//extra-libs/DataTables/datatables.min.js'  %}"></script>
+    <script>
+      /****************************************
+       *       Basic Table                   *
+       ****************************************/
+      $("#zero_config").DataTable();
+    </script>
+
+{% endblock custom_js %}

@@ -1,0 +1,105 @@
+{% extends 'client_templates/base_template.html' %}
+{% load static %}
+{% block custom_css %}
+   <link
+      href="{%  static 'assets/libs/jquery-steps/jquery.steps.css' %}"
+      rel="stylesheet"
+    />
+    <link href="{%  static 'assets/libs/jquery-steps/steps.css' %}" rel="stylesheet" />
+    <link href="{%  static 'assets/dist/css/style.min.css' %}" rel="stylesheet" />
+<style>
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  width: 100%;
+  border-radius: 15px; /* 5px rounded corners */
+  height:100%;
+}
+
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+.container {
+  padding: 2px 70px;
+}
+table, th, td {
+border: 0px solid white;
+border-collapse: collapse;
+}
+th, td {
+padding: 10px;
+text-align: left;
+}
+</style>
+{% endblock custom_css %}
+{% block page_title %}Pay For {{jobs.pvt_number}}{% endblock page_title %}
+{% block main_content %}
+     <div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                <div>
+                    <form class="form-horizontal" action="/transcation" method="post">
+                    {% csrf_token %}
+                  <div class="card-body">
+                    <h4 class="card-title">Payment Details</h4>
+                    <div class="form-group row">
+<!--                    <label for="job_id">Job ID *</label>-->
+                    <div class="col-sm-12">
+                        <input type="hidden" id="job_id" value="{{jobs.id}}"  class="required form-control" name="job_id"/>
+                    </div>
+
+                    </div>
+                    <div class="form-group row">
+                      <label for="email">Email *</label>
+                      <div class="col-sm-12">
+                        <input type="text" id="email" value="{{jobs.clientrep_email}}"  class="required form-control" name="email"/>
+                    </div>
+                    </div>
+                    <div class="form-group row">
+                      <label for="amount">Amount *</label>
+                      <div class="col-sm-12">
+                        <input type="text" id="amount" value=100 class="required form-control" name="amount"/>
+                    </div>
+                    </div>
+                    <div class="form-group row">
+                     {% if messages %}
+                       <div>
+                         {% for message in messages %}
+                         {% if message.tags == 'error' %}
+                         <div class="alert alert-danger">{{ message }}</div>
+                         {% endif %}
+                         {% if message.tags == 'success' %}
+                         <div class="alert alert-success">{{ message }}</div>
+                         {% endif %}
+                         {% endfor %}
+                       </div>
+                    {% endif %}
+                    </div>
+                    <div class="card-footer">
+                      <button type="submit" class="btn btn-primary btn-block">PAY</button>
+                    </div>
+                   </div>
+                </form>
+            </div>
+     </div>
+            </div>
+     </div>
+{% endblock main_content %}
+{% block custom_js %}
+  <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap tether Core JavaScript -->
+    <script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- slimscrollbar scrollbar JavaScript -->
+    <script src="../assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js"></script>
+    <script src="../assets/extra-libs/sparkline/sparkline.js"></script>
+    <!--Wave Effects -->
+    <script src="../dist/js/waves.js"></script>
+    <!--Menu sidebar -->
+    <script src="../dist/js/sidebarmenu.js"></script>
+    <!--Custom JavaScript -->
+    <script src="../dist/js/custom.min.js"></script>
+    <!-- this page js -->
+    <script src="../assets/libs/magnific-popup/dist/jquery.magnific-popup.min.js"></script>
+    <script src="../assets/libs/magnific-popup/meg.init.js"></script>
+{% endblock custom_js %}

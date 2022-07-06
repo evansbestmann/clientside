@@ -1,0 +1,47 @@
+{% extends 'admin_templates/base_template.html' %}
+{% load static %}
+{% block custom_css %}
+   <link
+      href="{%  static 'assets/libs/jquery-steps/jquery.steps.css' %}"
+      rel="stylesheet"
+    />
+    <link href="{%  static 'assets/libs/jquery-steps/steps.css' %}" rel="stylesheet" />
+    <link href="{%  static 'assets/dist/css/style.min.css' %}" rel="stylesheet" />
+<style>
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  width: 100%;
+  border-radius: 15px; /* 5px rounded corners */
+  height:100%;
+  padding: 10px;
+}
+
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+.container {
+  padding: 2px 70px;
+}
+</style>
+{% endblock custom_css %}
+{% block page_title %}Home{% endblock page_title %}
+{% block main_content %}
+
+     <div class="row">
+
+            <div class="col-md-12">
+              <div class="card">
+               <H2 style="color:red;"> Welcome {{ user.username}} Job Representative</H2>
+                  <br>
+
+                <h5>The information provided on this site by Laser Engineering Resources and Consultants Limited is strictly confidential with access keys posted to client job representatives.</h5>
+                  <h5> Be assured that your data is protected as established by the Nigeria Data Protection Regulation (NDPR) 2019 in pursuant of Section 6 (a, c) of the NITDA Act 2007.</h5>
+                  <h5> However, Laser Engineering Resources and Consultants Limited will not be held responsible for the validity, reliability and adequacy of above stated data outside the site as they may have been subject to manipulation.</h5>
+                  <h5> As a Laser Engineering Resources and Consultants Limited Admistration, you are to abide to the confidenciality clauses referenced in your employment contract. All data shared on this application are to be posted to the appropriate client and
+                  client representive respectfully.</h5>
+              </div>
+               </div>
+              </div>
+{% endblock main_content %}

@@ -1,0 +1,108 @@
+{% extends 'client_templates/base_template.html' %}
+{% load static %}
+{% block custom_css %}
+   <link
+      href="{%  static 'assets/libs/jquery-steps/jquery.steps.css' %}"
+      rel="stylesheet"
+    />
+    <link href="{%  static 'assets/libs/jquery-steps/steps.css' %}" rel="stylesheet" />
+    <link href="{%  static 'assets/dist/css/style.min.css' %}" rel="stylesheet" />
+<style>
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  width: 100%;
+  border-radius: 15px; /* 5px rounded corners */
+  height:100%;
+}
+
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+.container {
+  padding: 2px 70px;
+}
+</style>
+{% endblock custom_css %}
+{% block page_title %}Add Status{% endblock page_title %}
+{% block main_content %}
+     <div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                  <div style="margin:15px;">
+                  <table style="width:100%" >
+                    <tr>
+                    <th>Job ID:</th>
+                    <td>{{jobs.pvt_number}}</td>
+                    </tr>
+                    <tr>
+                    <th>Field:</th>
+                    <td>{{jobs.field_id}}</td>
+                    </tr>
+                    <tr>
+                    <th>Level:</th>
+                    <td>{{jobs.jobstatus}}</td>
+                    </tr>
+                    <tr>
+                    <th>Client Representative Email:</th>
+                    <td>{{jobs.clientrep_email}}</td>
+                    </tr>
+                    <tr>
+                    <th>Laser Representative:</th>
+                    <td>{{jobs.laserrep_id}}</td>
+                    </tr>
+                    <th>Status:</th>
+                    <td>{{jobs.completed}}</td>
+                    <tr>
+                    <th>Created at:</th>
+                    <td>{{jobs.created_at}}</td>
+                    </tr>
+                    <tr>
+                    <th>Updated at:</th>
+                    <td>{{jobs.updated_at}}</td>
+                    </tr>
+                    </table>
+                  </div>
+                  <div style="margin:15px;">
+                 <form class="form-horizontal" action="/jobdownload" method="post">
+                    {% csrf_token %}
+                     <div class="form-group row">
+<!--                       <label for="job_id">Job id *</label>-->
+                      <div class="col-sm-12">
+                        <input type="hidden" class="required form-control" name="job_id" value="{{jobs.id}}"/>
+                        <input type="hidden" class="required form-control" name="slug" value="{{jobs.slug}}"/>
+                        <input type="hidden" class="required form-control" name="clientrep" value="{{jobs.clientrep}}"/>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                       <label for="key">Job key *</label>
+                      <div class="col-sm-12">
+                        <input id="key" type="text" class="required form-control" name="key"/>
+                      </div>
+                    </div>
+                  <div class="form-group row">
+                     {% if messages %}
+                       <div>
+                         {% for message in messages %}
+                         {% if message.tags == 'error' %}
+                         <div class="alert alert-danger">{{ message }}</div>
+                         {% endif %}
+                         {% if message.tags == 'success' %}
+                         <div class="alert alert-success">{{ message }}</div>
+                         {% endif %}
+                         {% endfor %}
+                       </div>
+                    {% endif %}
+                    </div>
+
+                    <div class="card-footer">
+<!--                        <input type="submit" value="Check">-->
+                        <button type="submit" class="btn btn-primary btn-block">Download</button>
+                    </div>
+                </form>
+                  </div>
+              </div>
+                </div>
+              </div>
+{% endblock main_content %}

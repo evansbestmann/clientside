@@ -1,0 +1,77 @@
+{% extends 'admin_templates/base_template.html' %}
+{% load static %}
+{% block custom_css %}
+   <link
+      href="{%  static 'assets/libs/jquery-steps/jquery.steps.css' %}"
+      rel="stylesheet"
+    />
+    <link href="{%  static 'assets/libs/jquery-steps/steps.css' %}" rel="stylesheet" />
+    <link href="{%  static 'assets/dist/css/style.min.css' %}" rel="stylesheet" />
+<style>
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  width: 100%;
+  border-radius: 15px; /* 5px rounded corners */
+  height:100%;
+}
+
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+.container {
+  padding: 2px 70px;
+}
+</style>
+{% endblock custom_css %}
+{% block page_title %}Edit Field #{{fields.field_name}}{% endblock page_title %}
+{% block main_content %}
+     <div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                <form class="form-horizontal" action="/editfield_save" method="post">
+                    {% csrf_token %}
+                  <div class="card-body">
+                    <h4 class="card-title">Field Data</h4>
+                    <div class="form-group row">
+                       <label for="field">Field Name *</label>
+                      <div class="col-sm-12">
+                        <input type="text" id="field" class="required form-control" name="field_name" value="{{fields.field_name}}"/>
+                        <input type="hidden" class="required form-control" name="field_id" value="{{fields.id}}"/>
+                      </div>
+                    </div>
+                  <div class="form-group row">
+                    <div class="col-md-12">
+                      <label for="client">Client *</label>
+                      <select class="select2 form-select shadow-none" style="width: 100%; height: 36px" name="client" id="client">
+                        <option value="" disabled selected hidden>------select------</option>
+                        {%  for client in clients %}
+                           <option value="{{ client.id }}" {% if client.id == fields.client_id.id %} selected {% endif %} >{{ client.username }}</option>
+                        {%  endfor %}
+                      </select>
+                    </div>
+                  </div>
+                  </div>
+                  <div class="form-group row">
+                     {% if messages %}
+                       <div>
+                         {% for message in messages %}
+                         {% if message.tags == 'error' %}
+                         <div class="alert alert-danger">{{ message }}</div>
+                         {% endif %}
+                         {% if message.tags == 'success' %}
+                         <div class="alert alert-success">{{ message }}</div>
+                         {% endif %}
+                         {% endfor %}
+                       </div>
+                    {% endif %}
+                    </div>
+                    <div class="card-footer">
+                      <button type="submit" class="btn btn-primary btn-block">save</button>
+                    </div>
+                </form>
+              </div>
+                </div>
+              </div>
+{% endblock main_content %}

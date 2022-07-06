@@ -1,0 +1,94 @@
+{% extends 'client_templates/base_template.html' %}
+{% load static %}
+{% block custom_css %}
+   <link
+      href="{%  static 'assets/libs/jquery-steps/jquery.steps.css' %}"
+      rel="stylesheet"
+    />
+    <link href="{%  static 'assets/libs/jquery-steps/steps.css' %}" rel="stylesheet" />
+    <link href="{%  static 'assets/dist/css/style.min.css' %}" rel="stylesheet" />
+    <link
+      href="{%  static 'assets/libs/magnific-popup/dist/magnific-popup.css' %}"
+      rel="stylesheet"
+    />
+    <link href="{%  static 'dist/css/style.min.css' %}" rel="stylesheet" />
+<style>
+  .container-fluid {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+
+  }
+  .card {
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  width: 100%;
+  border-radius: 15px; /* 5px rounded corners */
+  height:100%;
+}
+
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0.4,0.4,0.4,0.4);
+}
+
+</style>
+{% endblock custom_css %}
+{% block page_title %}Download{% endblock page_title %}
+{% block main_content %}
+
+   <div class="container-fluid">
+     <div class="col-sm-12 col-md-8" >
+              <div class="card">
+
+                <div class="el-card-item">
+                    {% if jobs %}
+                       <img src="{{ jobs.cover.url }}" width="100%;" style="border-radius: 15px;">
+                    {% endif %}
+                </div>
+                  {% if messages %}
+                       <div>
+                         {% for message in messages %}
+                         {% if message.tags == 'error' %}
+                         <div class="alert alert-danger">{{ message }}</div>
+                         {% endif %}
+                         {% if message.tags == 'success' %}
+                         <div class="alert alert-success">{{ message }}</div>
+                         {% endif %}
+                         {% endfor %}
+                       </div>
+                    {% endif %}
+                <div class="card-footer">
+                    {% if jobs %}
+                        <a href="{{ jobs.pdf.url }}" class="btn btn-primary btn-sm" download onclick="changedir(downloadjoj)" id="downloadjoj">Download Report</a>
+<!--                        <input type="hidden" class="required form-control" name="job_id" value="{{jobs.id}}"/>-->
+                        <input type="hidden" class="required form-control" name="slug" value="{{jobs.slug}}"/>
+                    {% endif %}
+                </div>
+              </div>
+     </div>
+   </div>
+
+
+{% endblock main_content %}
+{% block custom_js %}
+  <script>
+       // var seconds=0;
+       // function displayseconds()
+       // {
+        //   seconds +=1;
+        //   document.getElementsById("download").innerText="Download will deactivate in "+seconds+" seconds ...";
+      //  }
+       // setInterval(displayseconds,1000);
+       // function redirecturl()
+       // {
+       //    document.getElementById("test").innerHTML ="<a href=+'{% url 'client_home' %}'+>home</a>" ;
+       // }
+       // setTimeout('redirecturl()',4000);
+    </script>
+    <script type="text/javascript">
+      function changedir(downloadjoj)
+      {
+          window.location = '/jobfeedback/' + "{{ jobs.slug }}";
+      }
+    </script>
+{% endblock custom_js %}

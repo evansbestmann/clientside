@@ -1,0 +1,222 @@
+{% extends 'admin_templates/base_template.html' %}
+{% load static %}
+{% block custom_css %}
+   <link
+      href="{%  static 'assets/libs/jquery-steps/jquery.steps.css' %}"
+      rel="stylesheet"
+    />
+    <link href="{%  static 'assets/libs/jquery-steps/steps.css' %}" rel="stylesheet" />
+    <link href="{%  static 'assets/dist/css/style.min.css' %}" rel="stylesheet" />
+<style>
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  width: 100%;
+  border-radius: 15px; /* 5px rounded corners */
+  height:100%;
+}
+
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+.container {
+  padding: 2px 70px;
+}
+ label {
+            float: left;
+        }
+ table, th, td {
+    border: 0px solid white;
+    border-collapse: collapse;
+    }
+    th, td {
+    padding: 10px;
+    text-align: left;
+    }
+</style>
+{% endblock custom_css %}
+
+{% block page_title %}Edit Job{% endblock page_title %}
+
+{% block main_content %}
+ <div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                <form class="form-horizontal" action="/editjob_save" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                  <div class="card-body">
+                    <h4 class="card-title">Job Data|{{jobs.pvt_number}}</h4>
+                    <div class="form-group row">
+                      <div class="col-sm-12">
+                          <table id="table1" class="table table-striped table-bordered nowrap" width="100%">
+                          <tr class="">
+                                <td>Has this Project been completed ?</td>
+                                <td><input type="radio" class="form-control"  value="complete" name="complete" />  Complete</td>
+                                <td><input type="radio" class="form-control" value="ongoing" name="complete" />   On-Going</td>
+                             </tr>
+                          </table>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                     <label for="client_id">Client *</label>
+                    <div class="col-md-12">
+                      <select class="select2 form-select shadow-none" style="width: 100%; height: 36px" name="client" id="client_id" >
+                        <option  selected disabled="true">--selict--</option>
+                        {%  for client in clients %}
+                           <option value="{{ client.id }}" {% if client.id == jobs.client_id.id %} selected {% endif %} >{{ client.username }}</option>
+                        {%  endfor %}
+                      </select>
+                     </div>
+                    </div>
+                    <div class="form-group row" >
+                         <label>Field *</label>
+                            <div class="col-md-12" >
+                            <select class="select2 form-select shadow-none" style="width: 100%; height: 36px" name="field_id" id="field_id">
+                                <option value="{{fields.id}}">{{fields.field_name}}</option>
+                            </select>
+                            </div>
+                    </div>
+                    <div class="form-group row">
+                       <label for="pvt_number">Job-ID *</label>
+                      <div class="col-sm-12">
+                        <input id="pvt_number" type="text" class="required form-control" value="{{jobs.pvt_number}}" name="pvt_number"/>
+                        <input id="job_id" type="hidden" class="required form-control" name="job_id" value="{{jobs.id}}"/>
+                        <input id="slug" type="hidden" class="required form-control" name="slug" value="{{jobs.slug}}"/>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                       <label for="clientrep">Client Rep *</label>
+                      <div class="col-sm-12">
+                        <input id="clientrep" type="text" class="required form-control" value="{{jobs.clientrep}}" name="clientrep"/>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                       <label for="clientrepmail">Client Rep Email *</label>
+                      <div class="col-sm-12">
+                        <input id="clientrepmail" type="email" class="required form-control" value="{{jobs.clientrep_email}}" name="clientrepmail"/>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                     <label for="status">Job Status*</label>
+                    <div class="col-md-12">
+                      <select class="select2 form-select shadow-none" style="width: 100%; height: 36px" name="status" id="status">
+                        <option value="" disabled selected hidden>Select</option>
+                        {%  for status in statuses %}
+                           <option value="{{status.id }}" {% if status.id  == jobs.jobstatus.id %} selected {% endif %} >{{ status.jobstatus}}</option>
+                        {%  endfor %}
+                      </select>
+                     </div>
+                    </div>
+                    <div class="form-group row">
+                     <label for="laser_rep">Laser Rep*</label>
+                    <div class="col-md-12">
+                      <select class="select2 form-select shadow-none" style="width: 100%; height: 36px" name="laser_rep" id="laser_rep">
+                        <option value="" disabled selected hidden>Select</option>
+                        {%  for laserrep in laserreps %}
+                           <option value="{{laserrep.id }}"  {% if laserrep.id  == jobs.laserrep_id.id %} selected {% endif %}  >{{ laserrep.laserrep_name}}</option>
+                        {%  endfor %}
+                      </select>
+                     </div>
+                    </div>
+                    <div class="form-group row">
+                      <label for="jobkey">Job Key*</label>
+                      <div class="col-sm-12">
+                        <input id="jobkey" type="text" class="required form-control" value="{{jobs.jobkey}}" name="jobkey"/>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="cover">Cover</label>
+                      <div class="col-sm-12">
+                         <input name="cover" id="cover" value="{{jobs.cover}}" class="form-control" type="file">
+                      </div>
+                   </div>
+
+                    <div class="form-group row">
+                        <label for="jobfile">Job File</label>
+                      <div class="col-sm-12">
+                        {% if jobs %}
+                         <input name="jobfile" id="jobfile" value="{{jobs.pdf}}"  class="form-control" type="file">
+                        {% endif %}
+                      </div>
+                   </div>
+                   </div>
+                   <br>
+                  <div class="form-group row">
+                     {% if messages %}
+                       <div>
+                         {% for message in messages %}
+                         {% if message.tags == 'error' %}
+                         <div class="alert alert-danger">{{ message }}</div>
+                         {% endif %}
+                         {% if message.tags == 'success' %}
+                         <div class="alert alert-success">{{ message }}</div>
+                         {% endif %}
+                         {% endfor %}
+                       </div>
+                    {% endif %}
+                    </div>
+                    <div class="card-footer">
+                      <button type="submit" class="btn btn-primary btn-block">Save</button>
+                    </div>
+                </form>
+              </div>
+            </div>
+     </div>
+{% endblock main_content %}
+{% block custom_js %}
+<script>
+        ///csrftoken for javascript
+        function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    const csrftoken = getCookie('csrftoken');
+    ///csrftoken for javascript
+
+    let client = document.getElementById("client_id") //we get the client select by id
+    let fieldvar = document.getElementById("field_id") //we get the client select by id
+    client.addEventListener("change", getClientId) //we listened for a change in the client select field
+
+    function getClientId(e){
+        console.log(e.target.value)//to see event in console //e is the event element for getClientId
+
+        let clientval = e.target.value// value of selected from option
+
+        const data = { id: clientval }; // data we are sending to the back end, id is key and clientval is the actual value of selected client
+
+        let url = " {% url 'getfieldsedit' %} " //getting our view url from which we want to get data and pussing in the fetch
+
+    fetch(url, {
+    method: 'POST', // or 'PUT'
+    headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrftoken,
+    },
+    body: JSON.stringify(data),//JSON.stringyfy used to convert the data object to a string
+    })
+    .then(response => response.json())
+    .then(data => {
+     console.log('Success:', data);
+     fieldvar.innerHTML = '<option value="" selected="">--select field--</option>' //passing returned data from backend to the field option
+     for(let i = 0; i < data.length; i++){
+       fieldvar.innerHTML += `<option value="${data[i]["id"]}"  selected="">${data[i]["field_name"]}</option>`
+     }
+     })
+     .catch((error) => {
+     console.error('Error:', error);
+     });
+     }
+</script>
+{% endblock custom_js %}
